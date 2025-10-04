@@ -1,0 +1,28 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+    - name: Install packages on Ubuntu
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - vim
+        - curl
+        - apache2
+        - nginx
+      when: ansible_os_family == "Debian"
+      ignore_errors: true
+
+    - name: Install packages on Red Hat
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - vim
+        - curl
+        - httpd
+        - nginx
+      when: ansible_os_family == "RedHat"
+      ignore_errors: true
